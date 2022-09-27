@@ -2,3 +2,15 @@
   width: 120px;
   height: 120px;
 }
+
+.gridContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.gridItem {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+}

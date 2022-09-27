@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import * as tone from "tone";
 import { Tone } from "tone/build/esm/core/Tone";
 import { Frequency, Time } from "tone/build/esm/core/type/Units";
@@ -21,44 +21,41 @@ const Playground = () => {
     }
 
   const cMajor = ["C", "D", "E", "F", "G", "A", "B"];
-  const aMinor = [100, 200, 300, 400, 500, 600, 700];
+  const itNeverWasAMinor = [100, 200, 300, 400, 500, 600, 700];
+
+  const SIZE = 30;
+  let columns: Array<ReactElement> = [];
+  for (let i = 1; i <= SIZE; i++) {
+    const row: any[] = [];
+    for (let j = 1; j <= SIZE; j++) {
+      row.push(
+        <button
+        disabled={!isLoaded}
+        onClick={() => {
+          playNote(i * j * 10, "8n", 1.5);
+        }}
+        onMouseOver={() => {
+          playNote(i * j * 10, "8n", 1);
+        }}
+        key={i * j * 10 + i + j}
+        className={styles.gridItem}
+      >
+        {i * j * 10}
+      </button>
+      );
+    }
+    columns.push(
+      <div className="row">
+        { row }
+      </div>
+      )
+  }
 
   return (
     <div>
-      <div> {
-        cMajor.map((note, i) => (
-          <button
-            disabled={!isLoaded}
-            onClick={() => {
-              playNote(note, "8n", 4);
-            }}
-            onMouseOver={() => {
-              playNote(note, "8n", 3);
-            }}
-            key={note + i}
-            className={styles.keyboardNote}
-          >
-            {note}
-          </button>
-        ))
-      } </div>
-      <div> {
-        aMinor.map((note, i) => (
-          <button
-            disabled={!isLoaded}
-            onClick={() => {
-              playNote(note, "8n", 3);
-            }}
-            onMouseOver={() => {
-              playNote(note, "8n", 2);
-            }}
-            key={note + i}
-            className={styles.keyboardNote}
-          >
-            {note}
-          </button>
-        ))
-      } </div>
+      <div className={styles.gridContainer}>
+        { columns }
+      </div>
     </div>
   );
 };
